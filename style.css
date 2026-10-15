@@ -65,8 +65,8 @@ body{
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding:  75px 20px 0 20px;
-    padding-top: 120px 20px 0 20px;
+    padding:  130px 20px 0 20px;
+    
 }
 
 .hero-overlay{
@@ -127,8 +127,8 @@ body{
     padding: 20px 0;
     border-bottom: 1px solid var(--border-color);
     position: sticky;
-    top: 60px;
-    z-index: 900;
+    top: 85px;
+    z-index: 999;
 }
 
 .categories-fade-wrapper{
