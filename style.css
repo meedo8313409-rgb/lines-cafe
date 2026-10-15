@@ -49,7 +49,7 @@ body{
 }
 
 .site-logo{
-    max-width: 140px;
+    max-width: 100px;
     height: auto;
     object-fit: contain;
     
