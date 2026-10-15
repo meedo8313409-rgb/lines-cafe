@@ -160,3 +160,40 @@ if (backToTopBtn) {
         });
     });
 }
+
+
+
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuQDwzbTancx6C8Z0dNzdEv3J-YNsVfBTz3GBBPB2u8IXR1evxt37p-ktQPd-vaX__Lb1HVygZVKmh/pub?output=csv';
+
+async function fetchMenuData() {
+  try {
+
+    const response = await fetch(SHEET_CSV_URL);
+    const data = await response.text();
+    
+    // تحويل الـ CSV إلى أسطر
+    const rows = data.split('\n').slice(1); // تجاهل صف العناوين الأول
+    
+    const products = rows.map(row => {
+      const [name, price, 
+
+category, available] = row.split(',').map(item => item?.trim());
+      return { name, price, category, available };
+    });
+
+    // تصفية المنتجات لعرض المتوفر فقط (TRUE)
+    const availableProducts = products.filter(p => p.available && p.available.toUpperCase() 
+
+=== 'TRUE');
+    
+    console.log('المنتجات المتوفرة:', availableProducts);
+    // هنا تستدعي الدالة التي تعرض المنتجات على الشاشة
+    // renderMenu(availableProducts);
+    
+  } catch (error) {
+    console.error('حدث خطأ أثناء جلب المنيو:', error);
+
+  }
+}
+
+fetchMenuData();
