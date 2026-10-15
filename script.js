@@ -217,7 +217,9 @@ p.available && p.available.toUpperCase() === 'TRUE');
   }
 }
 
-
+document.addEventListener('DOMContentLoaded' , () =>{
+    fetchMenuData();
+});
 
 
 
