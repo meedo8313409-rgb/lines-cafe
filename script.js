@@ -100,7 +100,7 @@ slider.addEventListener('mousedown', (e) => {
                     setTimeout(() => {
                         targetSection.classList.add('active-section');
 
-                        
+
                         // حساب المسافة بدقة بحيث يكون العنوان ظاهر تماماً
                         const headerOffset = 120; 
                         const elementPosition = targetSection.getBoundingClientRect().top;
@@ -118,11 +118,11 @@ slider.addEventListener('mousedown', (e) => {
     });
 });
 
-// 4. زر الهيرو "اكتشف القائمة"
-const heroScrollBtn = document.querySelector('.hero-scroll-btn');
+// 4. زر الهيرو "اكتشف القائمة"const heroScrollBtn = document.querySelector('.hero-scroll-btn');
 if (heroScrollBtn) {
     heroScrollBtn.addEventListener('click', (e) => {
         e.preventDefault();
+
 
         const targetId = heroScrollBtn.getAttribute('href');
         const targetElement = document.querySelector(targetId);
@@ -138,15 +138,14 @@ if (heroScrollBtn) {
             });
         }
     });
+
 }
 
-// 5. زر العودة للأعلى
-const backToTopBtn = document.getElementById('backToTopBtn');
+// 5. زر العودة للأعلىconst backToTopBtn = document.getElementById('backToTopBtn');
 if (backToTopBtn) {
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
             backToTopBtn.classList.add('show');
-
         } else {
             backToTopBtn.classList.remove('show');
         }
@@ -154,72 +153,9 @@ if (backToTopBtn) {
 
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({
+
             top: 0,
             behavior: 'auto'
-
         });
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuQDwzbTancx6C8Z0dNzdEv3J-YNsVfBTz3GBBPB2u8IXR1evxt37p-ktQPd-vaX__Lb1HVygZVKmh/pub?output=csv';
-
-async function fetchMenuData() {
-  try {
-
-    // إضافة تجميع الوقت لمنع المتصفح من قراءة البيانات القديمة المخزنة
-    const response = await fetch(`${SHEET_CSV_URL}&t=${Date.now()}`);
-    const data = await response.text();
-    
-    // تقسيم الأسطر
-    const rows = data.split('\n').map(row => row.trim()).filter(row => 
-
-row.length > 0);
-    const headers = rows[0].split(',').map(h => h.trim());
-    
-    const products = rows.slice(1).map(row => {
-      // التعامل مع الفواصل داخل القيم
-      const values = row.split(',').map(val => val.trim().replace(/^"|"$/g, ''));
-
-      return {
-        name: values[0],
-        price: values[1],
-        category: values[2],
-        available: values[3]
-      };
-    });
-
-    // تصفية العناصر التي قيمتها TRUE فقط (بدون التأثر بالحالة الأحرف)
-    const availableProducts = products.filter(p => 
-
-p.available && p.available.toUpperCase() === 'TRUE');
-    
-    console.log('المنتجات المتوفرة:', availableProducts);
-    
-    // الدالة المسؤولة عن بناء وتحديث الواجهة (استبدلها باسم الدالة لديك)
-    renderMenu(availableProducts);
-
-    
-  } catch (error) {
-    console.error('خطأ في جلب البيانات:', error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded' , () =>{
-    fetchMenuData();
-});
-
-
-
