@@ -217,7 +217,7 @@ p.available && p.available.toUpperCase() === 'TRUE');
   }
 }
 
-fetchMenuData();
+
 
 
 
