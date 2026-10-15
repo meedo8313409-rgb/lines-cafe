@@ -163,37 +163,61 @@ if (backToTopBtn) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuQDwzbTancx6C8Z0dNzdEv3J-YNsVfBTz3GBBPB2u8IXR1evxt37p-ktQPd-vaX__Lb1HVygZVKmh/pub?output=csv';
 
 async function fetchMenuData() {
   try {
 
-    const response = await fetch(SHEET_CSV_URL);
+    // إضافة تجميع الوقت لمنع المتصفح من قراءة البيانات القديمة المخزنة
+    const response = await fetch(`${SHEET_CSV_URL}&t=${Date.now()}`);
     const data = await response.text();
     
-    // تحويل الـ CSV إلى أسطر
-    const rows = data.split('\n').slice(1); // تجاهل صف العناوين الأول
-    
-    const products = rows.map(row => {
-      const [name, price, 
+    // تقسيم الأسطر
+    const rows = data.split('\n').map(row => row.trim()).filter(row => 
 
-category, available] = row.split(',').map(item => item?.trim());
-      return { name, price, category, available };
+row.length > 0);
+    const headers = rows[0].split(',').map(h => h.trim());
+    
+    const products = rows.slice(1).map(row => {
+      // التعامل مع الفواصل داخل القيم
+      const values = row.split(',').map(val => val.trim().replace(/^"|"$/g, ''));
+
+      return {
+        name: values[0],
+        price: values[1],
+        category: values[2],
+        available: values[3]
+      };
     });
 
-    // تصفية المنتجات لعرض المتوفر فقط (TRUE)
-    const availableProducts = products.filter(p => p.available && p.available.toUpperCase() 
+    // تصفية العناصر التي قيمتها TRUE فقط (بدون التأثر بالحالة الأحرف)
+    const availableProducts = products.filter(p => 
 
-=== 'TRUE');
+p.available && p.available.toUpperCase() === 'TRUE');
     
     console.log('المنتجات المتوفرة:', availableProducts);
-    // هنا تستدعي الدالة التي تعرض المنتجات على الشاشة
-    // renderMenu(availableProducts);
+    
+    // الدالة المسؤولة عن بناء وتحديث الواجهة (استبدلها باسم الدالة لديك)
+    renderMenu(availableProducts);
+
     
   } catch (error) {
-    console.error('حدث خطأ أثناء جلب المنيو:', error);
-
+    console.error('خطأ في جلب البيانات:', error);
   }
 }
 
 fetchMenuData();
+
+
+
